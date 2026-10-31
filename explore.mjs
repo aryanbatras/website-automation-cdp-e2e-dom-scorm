@@ -7,7 +7,6 @@ import { chromium } from 'playwright';
   if (!page) page = await context.newPage();
   console.log('Current URL:', page.url());
   console.log('Title:', await page.title());
-  // Navigate to IBM SkillsBuild
   await page.goto('https://skillsbuild.org', { waitUntil: 'domcontentloaded', timeout: 30000 }).catch(e => console.log('nav err', e.message));
   await page.waitForTimeout(3000);
   console.log('After nav URL:', page.url());

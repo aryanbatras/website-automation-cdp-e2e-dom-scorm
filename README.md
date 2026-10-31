@@ -26,7 +26,7 @@ The harness supports two execution modes:
 ## Architecture
 
 ```
-ibm-skillsbuild/
+project/
 ├── scripts/
 │   ├── lib/cdp.mjs              # CDP connect + frame helpers
 │   ├── automate.mjs             # Main slide-advance loop (accordions, videos, scroll, quiz detect, Next/TOC)
@@ -77,7 +77,7 @@ curl http://127.0.0.1:9222/json/version
 
 ### 2. Log in manually once
 
-In the Chrome window, sign into the target platform (e.g. IBM SkillsBuild) with your account. Cookies persist in `~/.chrome-automation-profile`.
+In the Chrome window, sign into the target platform (e.g. the target platform) with your account. Cookies persist in `~/.chrome-automation-profile`.
 
 ### 3. Bind MCP servers to port 9222 (optional, for agent loop)
 
@@ -101,7 +101,7 @@ In `opencode.json`:
 ### 4. Install dependencies
 
 ```bash
-cd ibm-skillsbuild
+cd project
 npm install
 ```
 
@@ -170,7 +170,7 @@ Then re-run `automate.mjs`.
 
 ---
 
-## Handling IBM SkillsBuild / SCORM Quirks
+## Handling the target platform / SCORM Quirks
 
 - **Nested iframes:** The scrollable container lives inside a child `<iframe>` (`scormcontent`). Always inspect `page.frames()`.
 - **Gated "Continue" buttons:** Many lessons keep `Continue` disabled until every accordion/tab/flip-card is clicked.

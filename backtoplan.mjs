@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 const browser = await chromium.connectOverCDP('http://127.0.0.1:9222');
 const context = browser.contexts()[0];
-// close ALM tab? find skillsbuild plan tab
+// close ALM tab? find plan tab
 const planPage = context.pages().find(p => p.url().includes('PLAN-EC6B83791960'));
 if (planPage) { await planPage.bringToFront(); }
 // reload plan to see updated progress
