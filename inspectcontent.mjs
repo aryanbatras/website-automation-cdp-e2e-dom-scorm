@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const browser = await chromium.connectOverCDP('http://127.0.0.1:9222');
+const context = browser.contexts()[0];
+const page = context.pages().find(p => p.url().includes('alm.ibm.com'));
+await page.waitForTimeout(3000);
+const frame = page.frames().find(f => f.url().includes('scormcontent'));
+console.log('CONTENT FRAME URL:', frame.url().slice(0,120));
+const text = await frame.evaluate(() => document.body.innerText);
+console.log('TEXT LEN:', text.length);
+console.log(text.slice(0, 4000));
+await browser.close();

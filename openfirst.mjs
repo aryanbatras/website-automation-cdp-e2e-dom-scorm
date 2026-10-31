@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const browser = await chromium.connectOverCDP('http://127.0.0.1:9222');
+const context = browser.contexts()[0];
+const page = context.pages().find(p => p.url().includes('skills.yourlearning.ibm.com')) || context.pages()[0];
+await page.waitForTimeout(1000);
+const link = page.locator('a[href*="ALM-COURSE_3953964"]').first();
+await link.click();
+await page.waitForTimeout(5000);
+console.log('NEW URL:', page.url());
+console.log('TITLE:', await page.title());
+const frames = page.frames();
+console.log('FRAMES:', frames.length);
+for (const f of frames) console.log('  -', f.url().slice(0,150));
+await browser.close();

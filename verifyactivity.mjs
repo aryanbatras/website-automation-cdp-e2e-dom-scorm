@@ -1,0 +1,12 @@
+const actPath = process.argv[2];
+import { chromium } from 'playwright';
+const browser = await chromium.connectOverCDP('http://127.0.0.1:9222');
+const context = browser.contexts()[0];
+const page = context.pages().find(p => p.url().includes('skills.yourlearning.ibm.com')) || context.pages()[0];
+await page.goto('https://skills.yourlearning.ibm.com' + actPath);
+await page.waitForTimeout(4000);
+const text = await page.evaluate(() => document.body.innerText);
+const idx = text.indexOf(actPath.includes('ALM') ? 'eLearning' : 'eLearning');
+const statusMatch = text.match(/Status\s*\n\s*(Completed|In progress)/);
+console.log('Status:', statusMatch ? statusMatch[1] : 'unknown');
+await browser.close();

@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+const browser = await chromium.connectOverCDP('http://127.0.0.1:9222');
+const context = browser.contexts()[0];
+const page = context.pages().find(p => p.url().includes('skills.yourlearning.ibm.com')) || context.pages()[0];
+await page.waitForTimeout(1000);
+const btn = page.locator('button:has-text("Go to activity"), a:has-text("Go to activity")').first();
+console.log('visible:', await btn.isVisible());
+await btn.click();
+await page.waitForTimeout(8000);
+console.log('URL:', page.url());
+console.log('TITLE:', await page.title());
+const frames = page.frames();
+console.log('FRAMES:', frames.length);
+for (const f of frames) console.log('  -', f.url().slice(0,200));
+await browser.close();

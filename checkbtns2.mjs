@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const browser = await chromium.connectOverCDP('http://127.0.0.1:9222');
+const context = browser.contexts()[0];
+const page = context.pages().find(p => p.url().includes('alm.ibm.com'));
+await page.waitForTimeout(500);
+const frame = page.frames().find(f => f.url().includes('scormcontent'));
+const btns = await frame.evaluate(() => Array.from(document.querySelectorAll('button')).map(b=>({text:(b.innerText||'').trim(), class:b.className.slice(0,80), disabled:b.disabled, visible: b.offsetParent!==null})).filter(b=>b.text||b.class.includes('continue')));
+console.log(JSON.stringify(btns, null, 2));
+const text = await frame.evaluate(() => document.body.innerText);
+console.log('---FEEDBACK BODY---');
+console.log(text.slice(text.indexOf('Incorrect'), text.indexOf('Incorrect')+500));
+await browser.close();
